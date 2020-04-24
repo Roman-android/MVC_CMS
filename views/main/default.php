@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?= $title; ?></title>
 </head>
 <body>
-<?php echo $content; ?>
+<p>[HEADER]</p>
+<p>[MENU]</p>
 </body>
 </html>

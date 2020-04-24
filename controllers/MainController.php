@@ -4,7 +4,6 @@
 namespace controllers;
 
 use core\Controller;
-use helpers\Db;
 
 class MainController extends Controller
 {

@@ -23,7 +23,7 @@ class Db
 
     }
 
-    public function query($sql,$params=[]){
+    private function query($sql,$params=[]){
 
         $stmt = $this -> db ->prepare($sql);
         if (!empty($params)){

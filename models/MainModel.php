@@ -14,4 +14,9 @@ class MainModel extends Model
         return $result;
     }
 
+    public function getMenu(){
+        $menu = $this->db->row("SELECT item FROM menu");
+        return $menu;
+    }
+
 }

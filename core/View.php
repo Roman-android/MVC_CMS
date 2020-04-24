@@ -4,6 +4,8 @@
 namespace core;
 
 
+use views\main\ParseTemplates;
+
 class View
 {
     public $route;
@@ -15,20 +17,33 @@ class View
     {
         $this->route = $route;
         $this->path = $route['controller'].'/'.$route['action'];
-        //debug($this->path);
     }
 
-    public function render ($title,$vars=[]){
-        extract($vars);
-        if(file_exists('views/'.$this->path.'.php')){
-            ob_start();
-            require_once 'views/'.$this->path.'.php';
-            $content = ob_get_clean();
-            require_once 'views/layouts/'.$this->layout.'.php';
-        }else{
-            echo 'Вид не найден'.$this->path;
-        }
+    public function render ($title,$result){
+        //extract($vars);
 
+        $path = 'views/'.$this->route['controller'].'/'.$this->layout.'.php';
+        if(file_exists($path)){
+            $this->renderLayout($path,$result);
+            //new ParseTemplates();
+        }else{
+            echo 'Вид не найден: '.$path;
+        }
+    }
+
+    public function renderLayout($path,$result){
+        require_once 'views/main/layouts/menu.php';
+
+        $layout = file_get_contents($path);
+        $find = '[MENU]';
+        $replace = '<hr/><b>'.getMenu('Пункт 2').'</b>';
+        $find_tag = strpos($layout, $find);
+        if ($find_tag==true) {
+            $replace1 = str_replace($find,$replace,$layout);
+            echo $replace1;
+        } else {
+            echo 'Псевдотэг '.$find.' не найден(((';
+        }
     }
 
     public function redirect($url){
