@@ -4,17 +4,17 @@
 namespace controllers;
 
 use core\Controller;
+use models\MainModel;
 
 class MainController extends Controller
 {
 
     public function indexAction()
     {
-        $result = $this->model->getNews();
-        $vars = [
-            'news'=>$result,
-            ];
-        $this->view->render("Главная страница",$vars);
+        $result = $this->model->requestNews();
+        $menu = $this->model->requestMenu();
+
+        $this->view->show_page("Главная страница",$result);
 
     }
 

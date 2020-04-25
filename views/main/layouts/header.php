@@ -1,6 +1,6 @@
 <?php
 
 function getHeader(){
-    '<p>Шапка сайта</p>';
+    return '<p>Шапка сайта</p>';
 }
 

@@ -1,5 +1,5 @@
 <?php
 
-function getMenu($item){
-   return '<p>Меню '.$item.'</p>';
+function getMenu(){
+   return '<p>Меню пункт 1</p>';
 }

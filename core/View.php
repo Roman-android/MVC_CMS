@@ -12,20 +12,27 @@ class View
     public $path;
     public $layout = 'default';
 
+    private $parse_template;
 
     public function __construct($route)
     {
         $this->route = $route;
         $this->path = $route['controller'].'/'.$route['action'];
+
+        $this->parse_template = new ParseTemplates();
     }
 
-    public function render ($title,$result){
-        //extract($vars);
+    public function show_page ($title, $result){
+
+        /*echo '<p>'.$title.'</p>';
+        foreach ($result as $val){
+            echo '<p>'.$val['title'].'</p>';
+        }*/
 
         $path = 'views/'.$this->route['controller'].'/'.$this->layout.'.php';
         if(file_exists($path)){
-            $this->renderLayout($path,$result);
-            //new ParseTemplates();
+            //$this->renderLayout($path,$result);
+            $this->parse_template->parseLayouts($this->route,$result);
         }else{
             echo 'Вид не найден: '.$path;
         }
@@ -36,7 +43,7 @@ class View
 
         $layout = file_get_contents($path);
         $find = '[MENU]';
-        $replace = '<hr/><b>'.getMenu('Пункт 2').'</b>';
+        $replace = '<hr/><b>'.getMenu().'</b>';
         $find_tag = strpos($layout, $find);
         if ($find_tag==true) {
             $replace1 = str_replace($find,$replace,$layout);

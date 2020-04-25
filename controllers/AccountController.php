@@ -9,11 +9,11 @@ class AccountController extends Controller
 {
     public function loginAction()
     {
-        $this->view->render("Вход");
+        $this->view->show_page("Вход");
     }
 
     public function registerAction()
     {
-        $this->view->render("Регистрация");
+        $this->view->show_page("Регистрация");
     }
 }

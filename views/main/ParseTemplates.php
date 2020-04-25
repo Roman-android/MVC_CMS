@@ -5,40 +5,41 @@ namespace views\main;
 
 class ParseTemplates
 {
-    private $layouts;
-    private $widgets;
+
+    private $tag_templates;
 
     public function __construct()
     {
-        require_once 'config.php';
-        $this->layouts = getLayouts();
-        $this->widgets = getWidgets();
-        $this->attachLayout($this->layouts);
-        //debug($this->layouts);
+        $this->tag_templates = require_once 'config.php';
     }
 
-    public function attachLayout($layout)
+
+    public function parseLayouts($route, $result)
     {
-        foreach ($layout as $path) {
-            //require_once 'layouts/'.mb_strtolower($value).'.php';
+        $item = array();
+        $default_layout = 'views/' . $route['controller'] . '/' . $this->tag_templates['default_layout'] . '.php';
+        $parse_default = file_get_contents($default_layout);
+        if (file_exists($default_layout)) {
+            foreach ($this->tag_templates['layouts'] as $key => $tag) {
+                //'views/main/layouts/menu.php'
 
-            $find = '['.$path.']';
-            $replace = file_get_contents('views/main/layouts/' . mb_strtolower($path) . '.php');
-            $parse_layout = file_get_contents('views/main/default.php');
-            $find_tag = strpos($parse_layout, $find);
-
-            if ($find_tag==true){
-                $get_layout = str_replace($find,$replace,$parse_layout);
-                echo $get_layout;
+                require_once 'views/' . $route['controller'] . '/layouts/' . strtolower($tag) . '.php';
+                $item[$key] = $tag;
+                /*$replace = 'get' . ucfirst(strtolower($tag)) . '()';
+                $find_tag = strpos($parse_default,$find);
+                if ($find_tag == true){
+                    $layout = str_replace($find,$replace,$parse_default);
+                    echo $layout;
+                }else{
+                    echo 'Тег '.$find.' не найден';
+                }*/
             }
-
-
+        } else {
+            echo 'Файл ' . $default_layout . ' не существует';
         }
-    }
+        echo $item[0];
 
-    public function parseLayouts()
-    {
-
+        //debug($replace);
     }
 
 }

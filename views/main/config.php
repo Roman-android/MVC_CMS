@@ -1,9 +1,7 @@
 <?php
 
-function getLayouts(){
-    return ['HEADER', 'MENU',];
-}
-
-function getWidgets(){
-    return ['CONTENT'];
-}
+return[
+    'default_layout'=>'default',
+    'layouts'=>['HEADER', 'MENU'],
+    'widgets'=>['CONTENT']
+];
