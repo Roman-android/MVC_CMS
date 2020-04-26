@@ -15,7 +15,7 @@ class MainController extends Controller
         $result = $this->model->requestNews();
         $menu = $this->model->requestMenu();
 
-        $this->view->show_page("Главная страница",$result);
+        $this->view->show_page($result);
 
     }
 

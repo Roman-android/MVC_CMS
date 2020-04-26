@@ -6,5 +6,6 @@
 <body>
 <p>[HEADER]</p>
 <p>[MENU]</p>
+<p>[FOOTER]</p>
 </body>
 </html>

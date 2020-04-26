@@ -8,15 +8,10 @@ use views\main\ParseTemplates;
 class View
 {
     protected $route;
-    protected $path;
-    protected $layout = 'default';
-    protected $parse_template;
 
     public function __construct($route)
     {
         $this->route = $route;
-        $this->path = $route['controller'].'/'.$route['action'];
-        $this->parse_template = new ParseTemplates();
     }
 
     public function redirect($url){

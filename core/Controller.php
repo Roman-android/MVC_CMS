@@ -26,6 +26,7 @@ abstract class Controller
         }
     }
     public function loadView($route){
+
         $path = 'views\\'.$route['controller'].'\\'.ucfirst($route['controller']).'View';
         if (class_exists($path)){
             return new $path($route);
