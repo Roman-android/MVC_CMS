@@ -5,6 +5,7 @@ namespace controllers;
 
 use core\Controller;
 use models\MainModel;
+use views\main\MainView;
 
 class MainController extends Controller
 {
