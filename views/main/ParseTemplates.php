@@ -16,15 +16,17 @@ class ParseTemplates
 
     public function parseLayouts($route, $result)
     {
-        $item = array();
+        $find = array();
+        $replace = array();
         $default_layout = 'views/' . $route['controller'] . '/' . $this->tag_templates['default_layout'] . '.php';
         $parse_default = file_get_contents($default_layout);
         if (file_exists($default_layout)) {
-            foreach ($this->tag_templates['layouts'] as $key => $tag) {
+            foreach ($this->tag_templates['layouts'] as $key => $value) {
                 //'views/main/layouts/menu.php'
 
-                require_once 'views/' . $route['controller'] . '/layouts/' . strtolower($tag) . '.php';
-                $item[$key] = $tag;
+                //require_once 'views/' . $route['controller'] . '/layouts/' . strtolower($tag) . '.php';
+                $find[] = '['.$value.']';
+                $replace[] = 'get' . ucfirst(strtolower($value)) . '()';
                 /*$replace = 'get' . ucfirst(strtolower($tag)) . '()';
                 $find_tag = strpos($parse_default,$find);
                 if ($find_tag == true){
@@ -37,8 +39,8 @@ class ParseTemplates
         } else {
             echo 'Файл ' . $default_layout . ' не существует';
         }
-        echo $item[0];
-
+        $layout = str_replace($find,$replace,$parse_default);
+        echo $layout;
         //debug($replace);
     }
 
