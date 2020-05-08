@@ -2,6 +2,6 @@
 
 return[
     'default_layout'=>'default',
-    'layouts'=>['HEADER', 'MENU','FOOTER'],
-    'widgets'=>['CONTENT']
+    'layouts'=>['header', 'menu','footer'],
+    'widgets'=>['gallery','categories'],
 ];

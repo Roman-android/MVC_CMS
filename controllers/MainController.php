@@ -9,14 +9,16 @@ use views\main\MainView;
 
 class MainController extends Controller
 {
+    public function __construct($route)
+    {
+        parent::__construct($route);
+        $request = $this->model->requestLayouts();
+        $this->view->show_page($request);
+    }
 
     public function indexAction()
     {
         $result = $this->model->requestNews();
-        $menu = $this->model->requestMenu();
-
-        $this->view->show_page($result);
-
     }
 
     /*public function contactsAction()

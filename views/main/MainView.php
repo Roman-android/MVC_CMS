@@ -8,10 +8,11 @@ use core\View;
 class MainView extends View
 {
 
-    public function show_page($result)
+    public function show_page($request)
     {
-        $parse_template = new ParseTemplates();
-        $parse_template->parseLayouts($this->route, $result);
+        $parse_template = new ParseTemplates($this->route);
+        $parse_template->getLayouts($request);
+        //$parse_template->getContent();
     }
 
 

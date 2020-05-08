@@ -3,8 +3,6 @@
 
 namespace core;
 
-use views\main\ParseTemplates;
-
 class View
 {
     protected $route;

@@ -5,55 +5,81 @@ namespace views\main;
 
 class ParseTemplates
 {
-
+    private $route;
     private $tag_templates;
+    private $default_layout;
+    private $parse_default;
 
-    public function __construct()
+    public function __construct($route)
     {
+        $this->route = $route;
         $this->tag_templates = require_once 'config.php';
+        $this->default_layout = 'views/' . $route['controller'] . '/' . $this->tag_templates['default_layout'] . '.php';
+        $this->parse_default = file_get_contents($this->default_layout);
     }
 
 
-    public function parseLayouts($route, $result)
+    public function getLayouts($res)
     {
         $find = array();
         $replace = array();
-        $default_layout = 'views/' . $route['controller'] . '/' . $this->tag_templates['default_layout'] . '.php';
-        $parse_default = file_get_contents($default_layout);
-        if (file_exists($default_layout)) {
+        $lost_tags = array();
+        if (file_exists($this->default_layout)) {
+            $replace = $this->getTemplatesAction('layouts', $res);
+
             foreach ($this->tag_templates['layouts'] as $key => $value) {
+                $find[] = '[' . strtoupper($value) . ']';
 
-                $template_path = 'views\\' . $route['controller'] . '\layouts\\' . ucfirst(strtolower($value));
-
-                if (class_exists($template_path)) {
-                    $template_action = 'get' . ucfirst(strtolower($value));
-                    if (method_exists($template_path, $template_action)) {
-                        $template_file = new $template_path;
-                        $replace[] = $template_file->$template_action();
-                    } else {
-                        echo "Метод " . $template_action . " не найден";
-                    }
-                } else {
-                    echo "Класс " . $template_path . " не найден";
+                $find_tag = strpos($this->parse_default, $find[$key]);
+                if ($find_tag == false) {
+                    $lost_tags[$value] = $find[$key];
                 }
-
-                $find[] = '[' . $value . ']';
-
-                /*
-                $find_tag = strpos($parse_default,$find);
-                if ($find_tag == true){
-                    $layout = str_replace($find,$replace,$parse_default);
-                    echo $layout;
-                }else{
-                    echo 'Тег '.$find.' не найден';
-                }*/
             }
+
+            $find[] = '[WIDGETS]';
+            $replace[] = $this->getWidgets($res);
         } else {
-            echo 'Основной файл шаблона (' . $default_layout . ') не существует';
+            echo 'Основной файл шаблона (' . $this->default_layout . ') не существует';
         }
 
-        $layout = str_replace($find, $replace, $parse_default);
-        echo $layout;
+        if (empty($lost_tags)) {
+            $layout = str_replace($find, $replace, $this->parse_default);
+            echo $layout;
+        } else {
+            $tags = implode(",", $lost_tags);
+            echo "Не найдены псевдотеги: " . $tags . " в шаблоне " . $this->default_layout;
+        }
+    }
+
+    public function getWidgets($res)
+    {
+        $replace = $this->getTemplatesAction('widgets', $res);
+        return implode($replace);
+    }
+
+    //Todo вставить в getLayouts и getWidgets()
+    private function getTemplatesAction($type, $res)
+    {
+        $replace = array();
+
+        foreach ($this->tag_templates[$type] as $key => $value) {
+            $template_path = 'views\\' . $this->route['controller'] . '\\' . $type . '\\' . ucfirst($value);
+
+            if (class_exists($template_path)) {
+                $template_action = 'get' . ucfirst($value);
+                if (method_exists($template_path, $template_action)) {
+                    $template_file = new $template_path;
+                    $replace[] = $template_file->$template_action($res[$key]);
+                } else {
+                    echo "Метод " . $template_action . " не найден";
+                }
+            } else {
+                echo "Класс " . $template_path . " не найден";
+            }
+
+        }
+
+        return $replace;
     }
 
 }

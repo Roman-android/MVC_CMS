@@ -5,8 +5,14 @@ namespace views\main\layouts;
 class Menu
 {
 
-    public function getMenu(){
-        return '<p>Меню пункт 1</p>';
+    private $menu;
+
+    public function getMenu($res){
+        $this->menu .= '<p>Раздел меню</p><hr/>';
+        foreach ($res as $val){
+            $this->menu .= '<p>Меню '.$val['item'].'</p>';
+        }
+        return $this->menu;
     }
 
 }

@@ -6,6 +6,8 @@
 <body>
 <p>[HEADER]</p>
 <p>[MENU]</p>
+<p>[WIDGETS]</p>
 <p>[FOOTER]</p>
+
 </body>
 </html>

@@ -33,6 +33,8 @@ class Router
     }
 
     public function run(){
+        echo "Страница ".$_SERVER['HTTP_HOST']."<br/>";
+        echo "Страница ".$_SERVER['DOCUMENT_ROOT']."<br/>";
         if ($this->match()){
             /*echo "<p>Controller: <b>".$this->params['controller']."</b></p>";
             echo "<p>Action: <b>".$this->params['action']."</b></p>";*/
