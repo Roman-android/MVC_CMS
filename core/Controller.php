@@ -3,11 +3,9 @@
 
 namespace core;
 
-use models\MainModel;
-use views\main\MainView;
-
 abstract class Controller
 {
+    public $page;
     protected $route;
     protected $view;
     protected $model;
@@ -15,8 +13,9 @@ abstract class Controller
     public function __construct($route)
     {
         $this->route = $route;
+        $this->page = trim($_SERVER['REQUEST_URI'],'/');
         $this->view = $this->loadView($route);
-        $this->model = $this->loadModel($route['controller']);
+        $this->model = $this->loadModel($route);
     }
 
     public function loadModel($name){
@@ -27,7 +26,7 @@ abstract class Controller
     }
     public function loadView($route){
 
-        $path = 'views\\'.$route['controller'].'\\'.ucfirst($route['controller']).'View';
+        $path = 'views\\'.$route.'\\'.ucfirst($route).'View';
         if (class_exists($path)){
             return new $path($route);
         }

@@ -12,6 +12,7 @@ class Menu
         foreach ($res as $val){
             $this->menu .= '<p>Меню '.$val['item'].'</p>';
         }
+        $this->menu .= '<p>Окончание меню</p><hr/>';
         return $this->menu;
     }
 

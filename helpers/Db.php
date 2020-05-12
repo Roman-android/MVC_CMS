@@ -2,7 +2,6 @@
 
 
 namespace helpers;
-use mysqli;
 use PDO;
 
 class Db
@@ -10,16 +9,16 @@ class Db
     protected $db;
     public function __construct()
     {
-        $config = require_once 'config/db.php';
-        //$this -> db = new PDO('mysql:host='.$config['host'].';dbname='.$config['base'].';charset='.$config['charset'].'', $config['user'], $config['password']);
+        $config_bd = require_once 'config/config_bd.php';
+        //$this -> db = new PDO('mysql:host='.$config_bd['host'].';dbname='.$config_bd['base'].';charset='.$config_bd['charset'].'', $config_bd['user'], $config_bd['password']);
 
 
-        /*$dsn = "mysql:host=".$config['host'].";dbname=".$config['base'].";charset=utf8";
-        $this->db = new PDO($dsn, $config['user'], $config['password']);
+        /*$dsn = "mysql:host=".$config_bd['host'].";dbname=".$config_bd['base'].";charset=utf8";
+        $this->db = new PDO($dsn, $config_bd['user'], $config_bd['password']);
         $this->db->query("SET NAMES 'utf8'");*/
 
-        $dsn = "mysql:host=".$config['host'].";dbname=".$config['base']."";
-        $this->db = new PDO($dsn, $config['user'], $config['password'],array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".$config['charset'].""));
+        $dsn = "mysql:host=".$config_bd['host'].";dbname=".$config_bd['base']."";
+        $this->db = new PDO($dsn, $config_bd['user'], $config_bd['password'],array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES ".$config_bd['charset'].""));
 
     }
 

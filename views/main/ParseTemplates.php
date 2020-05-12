@@ -14,7 +14,8 @@ class ParseTemplates
     {
         $this->route = $route;
         $this->tag_templates = require_once 'config.php';
-        $this->default_layout = 'views/' . $route['controller'] . '/' . $this->tag_templates['default_layout'] . '.php';
+        $this->default_layout = 'views/' . $route . '/' . $this->tag_templates['default_layout'] . '.php';
+        $this->default_layout = 'views/' . $route . '/' . $this->tag_templates['default_layout'] . '.php';
         $this->parse_default = file_get_contents($this->default_layout);
     }
 
@@ -38,6 +39,7 @@ class ParseTemplates
 
             $find[] = '[WIDGETS]';
             $replace[] = $this->getWidgets($res);
+
         } else {
             echo 'Основной файл шаблона (' . $this->default_layout . ') не существует';
         }
@@ -57,13 +59,12 @@ class ParseTemplates
         return implode($replace);
     }
 
-    //Todo вставить в getLayouts и getWidgets()
     private function getTemplatesAction($type, $res)
     {
         $replace = array();
 
         foreach ($this->tag_templates[$type] as $key => $value) {
-            $template_path = 'views\\' . $this->route['controller'] . '\\' . $type . '\\' . ucfirst($value);
+            $template_path = 'views\\' . $this->route . '\\' . $type . '\\' . ucfirst($value);
 
             if (class_exists($template_path)) {
                 $template_action = 'get' . ucfirst($value);

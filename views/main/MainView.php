@@ -12,7 +12,6 @@ class MainView extends View
     {
         $parse_template = new ParseTemplates($this->route);
         $parse_template->getLayouts($request);
-        //$parse_template->getContent();
     }
 
 

@@ -9,9 +9,9 @@ class MainModel extends Model
 {
 
     public function requestLayouts(){
-        $header = $this->db->row("SELECT addres,telephone FROM header");
-        $menu = $this->db->row("SELECT item FROM menu");
-        $footer = $this->db->row("SELECT item FROM menu");
+        $header = $this->db->row("SELECT * FROM header");
+        $menu = $this->db->row("SELECT * FROM menu");
+        $footer = $this->db->row("SELECT * FROM menu");
         return [$header,$menu,$footer];
     }
 
@@ -21,6 +21,9 @@ class MainModel extends Model
         return $result;
     }
 
+    public function requestPage(){
+
+    }
 
 
 }
