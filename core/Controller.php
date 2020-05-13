@@ -18,8 +18,8 @@ abstract class Controller
         $this->model = $this->loadModel($route);
     }
 
-    public function loadModel($name){
-        $path = 'models\\'.ucfirst($name).'Model';
+    public function loadModel($route){
+        $path = 'models\\'.ucfirst($route).'Model';
         if (class_exists($path)){
             return new $path();
         }
@@ -28,7 +28,7 @@ abstract class Controller
 
         $path = 'views\\'.$route.'\\'.ucfirst($route).'View';
         if (class_exists($path)){
-            return new $path($route);
+            return new $path($route,$this->page);
         }
     }
 

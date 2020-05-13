@@ -15,7 +15,6 @@ class MainController extends Controller
 
     public function mainAction()
     {
-        echo $this->route;
         $request = $this->model->requestLayouts();
         $this->view->show_page($request);
     }

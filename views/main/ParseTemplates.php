@@ -6,16 +6,19 @@ namespace views\main;
 class ParseTemplates
 {
     private $route;
+    private $page;
     private $tag_templates;
+
     private $default_layout;
     private $parse_default;
 
-    public function __construct($route)
+    public function __construct($route,$page)
     {
         $this->route = $route;
-        $this->tag_templates = require_once 'config.php';
-        $this->default_layout = 'views/' . $route . '/' . $this->tag_templates['default_layout'] . '.php';
-        $this->default_layout = 'views/' . $route . '/' . $this->tag_templates['default_layout'] . '.php';
+        $this->page = $page;
+
+        $this->tag_templates = require_once 'config/config_pages.php';
+        $this->default_layout = 'views/' . $route . '/public/' . $this->tag_templates['default_layout'] . '.php';
         $this->parse_default = file_get_contents($this->default_layout);
     }
 
@@ -26,7 +29,21 @@ class ParseTemplates
         $replace = array();
         $lost_tags = array();
         if (file_exists($this->default_layout)) {
-            $replace = $this->getTemplatesAction('layouts', $res);
+            foreach ($this->tag_templates['layouts'] as $key => $value) {
+                $template_path = 'views\\' . $this->route . '\layouts\\' . ucfirst($value);
+
+                if (class_exists($template_path)) {
+                    $template_action = 'get' . ucfirst($value);
+                    if (method_exists($template_path, $template_action)) {
+                        $template_file = new $template_path;
+                        $replace[] = $template_file->$template_action($res[$key]);
+                    } else {
+                        echo "Метод " . $template_action . " не найден";
+                    }
+                } else {
+                    echo "Класс " . $template_path . " не найден";
+                }
+            }
 
             foreach ($this->tag_templates['layouts'] as $key => $value) {
                 $find[] = '[' . strtoupper($value) . ']';
@@ -55,16 +72,10 @@ class ParseTemplates
 
     public function getWidgets($res)
     {
-        $replace = $this->getTemplatesAction('widgets', $res);
-        return implode($replace);
-    }
-
-    private function getTemplatesAction($type, $res)
-    {
         $replace = array();
 
-        foreach ($this->tag_templates[$type] as $key => $value) {
-            $template_path = 'views\\' . $this->route . '\\' . $type . '\\' . ucfirst($value);
+        foreach ($this->tag_templates['widgets'][$this->page] as $key => $value) {
+            $template_path = 'views\\' . $this->route . '\widgets\\' . ucfirst($value);
 
             if (class_exists($template_path)) {
                 $template_action = 'get' . ucfirst($value);
@@ -79,8 +90,29 @@ class ParseTemplates
             }
 
         }
+        return implode($replace);
+    }
+
+   /* private function getTemplatesAction($type, $res)
+    {
+        $replace = array();
+
+
+            if (class_exists($template_path)) {
+                $template_action = 'get' . ucfirst($value);
+                if (method_exists($template_path, $template_action)) {
+                    $template_file = new $template_path;
+                    $replace[] = $template_file->$template_action($res[$key]);
+                } else {
+                    echo "Метод " . $template_action . " не найден";
+                }
+            } else {
+                echo "Класс " . $template_path . " не найден";
+            }
+
+
 
         return $replace;
-    }
+    }*/
 
 }

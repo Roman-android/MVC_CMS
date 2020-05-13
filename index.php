@@ -1,9 +1,6 @@
 <?php
 
 require_once "helpers/Dev.php";
-require_once "config/config_widgets.php";
-require_once "config/config_layouts.php";
-require_once "config/config_default_pages.php";
 
 use core\Router;
 

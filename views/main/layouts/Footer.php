@@ -6,9 +6,12 @@ namespace views\main\layouts;
 
 class Footer
 {
+    private $footer;
 
     public function getFooter($res){
-        return '<p>Футер сайта</p>';
+        $this->footer .= '<hr>';
+        $this->footer .= '<p>Футер сайта</p>';
+        return $this->footer;
     }
 
 }

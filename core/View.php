@@ -5,12 +5,6 @@ namespace core;
 
 class View
 {
-    protected $route;
-
-    public function __construct($route)
-    {
-        $this->route = $route;
-    }
 
     public function redirect($url){
         header('location: '.$url);
