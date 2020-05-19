@@ -7,6 +7,7 @@ class ParseTemplates
 {
     private $route;
     private $page;
+
     private $tag_templates;
 
     private $default_layout;
@@ -17,7 +18,7 @@ class ParseTemplates
         $this->route = $route;
         $this->page = $page;
 
-        $this->tag_templates = require_once 'config/config_pages.php';
+        $this->tag_templates = require_once 'config/config_pages_old.php';
         $this->default_layout = 'views/' . $route . '/public/' . $this->tag_templates['default_layout'] . '.php';
         $this->parse_default = file_get_contents($this->default_layout);
     }
@@ -37,6 +38,7 @@ class ParseTemplates
                     if (method_exists($template_path, $template_action)) {
                         $template_file = new $template_path;
                         $replace[] = $template_file->$template_action($res[$key]);
+                        //$replace[] = $template_file->$template_action($res[$value]);
                     } else {
                         echo "Метод " . $template_action . " не найден";
                     }

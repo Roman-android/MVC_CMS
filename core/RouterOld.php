@@ -9,7 +9,7 @@ class RouterOld
 
     public function __construct()
     {
-        $arr = require_once 'config/routes.php';
+        $arr = require_once 'config/routes_old.php';
         foreach ($arr as $key => $value){
             $this->add($key,$value);
         }

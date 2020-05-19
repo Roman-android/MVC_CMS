@@ -1,6 +1,6 @@
 <?php
 
-return[
+return [
     'default_layout'=>'default',
     'layouts'=>['header', 'menu','footer'],
     'widgets'=>[

@@ -8,13 +8,13 @@ class Router
 
     public function __construct()
     {
-        $this->config_routes = require_once 'config/config_routes.php';
+        $this->config_routes = require_once 'config/config_routes_old.php';
     }
 
     public function run()
     {
-        echo $_SERVER['REQUEST_URI'].'<br/>';
-        echo $_SERVER['HTTP_HOST'].'<br/>';
+        echo "REQUEST_URI: ".$_SERVER['REQUEST_URI'].'<br/>';
+        echo "HTTP_HOST: ".$_SERVER['HTTP_HOST'].'<br/>';
         //=================================
         //$part = $_SERVER['HTTP_HOST'];
         //$route = $this->config_routes[$part];

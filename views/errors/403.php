@@ -1,2 +1,5 @@
 Страница 403
-<?php echo '<br/>'.$description; ?>
+<?php 
+header("HTTP/1.0 404 Not Found");
+echo '<br/>'.$description; 
+?>
