@@ -4,25 +4,23 @@ namespace core;
 
 class Router
 {
-    private $config_routes;
+    
+    private $part_app;
 
     public function __construct()
     {
-        $this->config_routes = require_once 'config/config_routes_old.php';
+        Config::init();
+        $this->part_app = Config::$part_app;
     }
 
     public function run()
     {
-        echo "REQUEST_URI: ".$_SERVER['REQUEST_URI'].'<br/>';
-        echo "HTTP_HOST: ".$_SERVER['HTTP_HOST'].'<br/>';
-        //=================================
-        //$part = $_SERVER['HTTP_HOST'];
-        //$route = $this->config_routes[$part];
-        $section = array_search($_SERVER['HTTP_HOST'],$this->config_routes);
-        $path = "controllers\\" . ucfirst($section) . "Controller";
+        $http_host = $_SERVER['HTTP_HOST'];
+        $path = "controllers\\" . ucfirst($this->part_app[$http_host]) . "Controller";
+        
 
-        $action = $section.'Action';
-        $controller = new $path($section);
+        $action = $this->part_app[$http_host].'Action';
+        $controller = new $path($this->part_app[$http_host]);
         $controller->$action();
     }
 

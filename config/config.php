@@ -3,8 +3,15 @@
 /*Настройки для открытой (общей) части сайта*/
 //===============================================
 
-//$default_file = 'views/main/public/default_layout.php';
-//$template_path = 'views\main\layouts\\' . ucfirst($value);
+define('GALLERY',"gallery");
+define('MAPS',"maps");
+define('PRODUCTS',"products");
+
+static $part_app = [
+    'test.homedver.ru'=>'main',
+    'admin.homedver.ru'=>'admin'
+    ];
+    
 $default_page = 'views/main/public/default.php';
 
 $templates_root = [
@@ -13,13 +20,33 @@ $templates_root = [
 ];
 
 $layouts_tags = ['header', 'menu', 'footer'];
-$widgets_tags =[
-    'main' => ['gallery', 'maps'],
-    'catalog' => ['categories'],
+
+/*
+$main = ['gallery', 'maps'];
+$catalog = ['categories'];
+$contacts = ['map'];
+*/
+
+$pages =[
+    'main' => ['maps','gallery'],
+    'catalog' => ['products'],
     'contacts' => ['map'],
     ];
 
+//====================================
+/*$pages = [
+    'main' => 'main',
+    'catalog' => 'catalog',
+    'contacts' => 'contacts',
+];
+
+$widgets_page = [
+
+];*/
+//====================================
 define('default_page',$default_page);
+define('part_app',$part_app);
 define('templates_root',$templates_root);
 define('layouts_tags',$layouts_tags);
-define('widgets_tags',$widgets_tags);
+define('pages',$pages);
+

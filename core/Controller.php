@@ -5,36 +5,31 @@ namespace core;
 
 abstract class Controller
 {
-    public $page;
-    public $config;
-
-    public $route;
-    protected $view;
+    private $part_app;
     protected $model;
+    protected $view;
+    private $current_page;
 
-    public function __construct($route)
+    public function __construct($part_app)
     {
-        $this->page = trim($_SERVER['REQUEST_URI'], '/');
-        $this->config = Config::init();
-        $this->route = $route;
-        $this->view = $this->loadView($this->route);
-        $this->model = $this->loadModel($this->route);
+        $this->part_app = $part_app;
+        $this->model = $this->loadModel();
+        $this->view = $this->loadView();
     }
 
-    public function loadModel($route)
+    private function loadModel()
     {
-        $path = 'models\\' . ucfirst($route) . 'Model';
+        $path = 'models\\' . ucfirst($this->part_app) . 'Model';
         if (class_exists($path)) {
-            return new $path($this->page);
+            return new $path();
         }
     }
 
-    public function loadView($route)
+    private function loadView()
     {
-
-        $path = 'views\\' . $route . '\\' . ucfirst($route) . 'View';
+        $path = 'views\\' . $this->part_app . '\\' . ucfirst($this->part_app) . 'View';
         if (class_exists($path)) {
-            return new $path($route, $this->page);
+            return new $path();
         }
     }
 

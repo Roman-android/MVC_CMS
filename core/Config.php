@@ -4,9 +4,11 @@ namespace core;
 
 class  Config
 {
-
+    public static $current_page;
     public static $default_page;
     public static $templates_root;
+    public static $part_app;
+    public static $pages;
 
     /*public function __construct()
     {
@@ -16,10 +18,21 @@ class  Config
     }*/
     public static function init(){
         require_once 'config/config.php';
+
+
         self::$default_page=default_page;
         self::$templates_root = templates_root;
+        self::$part_app = part_app;
+        self::$pages = pages;
     }
 
+    public static function current_page(){
+        self::$current_page = trim($_SERVER['REQUEST_URI'], '/');
+        if (self::$current_page == "") {
+            self::$current_page = "main";
+        }
+        return self::$current_page;
+    }
     public static function get_tags($type, $page=null)
     {
         if ($type == "layouts") {
@@ -32,10 +45,8 @@ class  Config
     private static function get_widgets($page)
     {
         $widgets = array();
-        if ($page == "") {
-            $page = "main";
-        }
-        foreach (widgets_tags[$page] as $key => $value) {
+
+        foreach (self::$pages[$page] as $key => $value) {
             //$widgets[$value] = $value;
             $widgets[] = $value;
         }

@@ -8,49 +8,30 @@ use core\Model;
 
 class MainModel extends Model
 {
-    
-    private $page;
 
-    public function __construct($page){
-        parent::__construct();
-        $this->page = $page;
-    }
-    
-    public function requestLayouts(){
-        /*$layouts = [
-            'header' => '$this->db->row("SELECT * FROM header")',
-            'menu' => '$this->db->row("SELECT * FROM menu")',
-            'footer' => '$this->db->row("SELECT * FROM menu")',
-            ];
-            
-        return $layouts;*/
-
-
-        $layout_part = array();
-        foreach(Config::get_tags('layouts') as $key=>$value){
-            $layout_part[$key] = $this->db->row("SELECT * FROM $value");
-        }
-        return $layout_part;
-
-
-
-        /*$test = 'header';
-        $test1 = 'footer';
-        $header = $this->db->row("SELECT * FROM $test");
-        $menu = $this->db->row("SELECT * FROM menu");
-        $footer = $this->db->row("SELECT * FROM $test1");
-        return [$header,$menu,$footer];*/
-
-    }
-
-    public function requestNews()
+    public function request_layouts()
     {
-        $result = $this->db->row("SELECT title,description FROM news");
-        return $result;
+
+        $layouts = array();
+        $layouts["header"] = $this->db->row("SELECT * FROM header");
+        $layouts["menu"] = $this->db->row("SELECT * FROM menu");
+        $layouts["footer"] = $this->db->row("SELECT * FROM menu");
+        return $layouts;
+
     }
 
-    public function requestPage(){
+    public function request_pages()
+    {
 
+        $page = Config::current_page();
+
+        $res = array();
+
+        $res[GALLERY] = $this->db->row("SELECT image_big, image_small,img_title FROM gallery");
+        $res[MAPS] = $this->db->row("SELECT axis_x,axis_y FROM maps");
+        $res[PRODUCTS] = $this->db->row("SELECT img_product,title,description FROM products");
+
+        return $res;
     }
 
 

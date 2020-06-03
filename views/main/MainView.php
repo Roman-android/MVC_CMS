@@ -5,43 +5,31 @@ namespace views\main;
 
 use core\Config;
 use core\View;
+use views\errors\Error404;
 
 class MainView extends View
 {
-    private $route;
-    private $page;
-
-
     private $templates_root;
     private $default_page;
     private $parse_default;
 
-    public function __construct($route,$page)
+    public function __construct()
     {
-        $this->route = $route;
-        $this->page = $page;
-
         $this->templates_root = Config::$templates_root;
         $this->default_page = Config::$default_page;
         $this->parse_default = file_get_contents($this->default_page);
-
-    }
-
-    public function show_page($res)
-    {
-        $this->getLayouts($res);
     }
 
     //===================================================
 
-    public function getLayouts($res)
+    public function get_page($res_layouts,$res_widgets)
     {
         $find = array();
         $replace = array();
         $lost_tags = array();
         if (file_exists($this->default_page)) {
 
-            $replace = $this->getTemplatesAction('layouts',$res);
+            $replace = $this->getTemplatesAction('layouts',$res_layouts);
             foreach (Config::get_tags('layouts') as $key => $value) {
                 $find[] = '[' . strtoupper($value) . ']';
 
@@ -51,8 +39,14 @@ class MainView extends View
                 }
             }
 
-            $find[] = '[WIDGETS]';
-            $replace[] = $this->getWidgets($res);
+            $find[] = '[CONTENT]';
+            if(array_key_exists(Config::current_page(),Config::$pages)){
+                echo "Страница существует!";
+                $replace[] = $this->getWidgets($res_widgets);
+            }else{
+                echo "Страница НЕ существует!";
+                $replace[] = $this->get_error_page();
+            }
 
         } else {
             echo 'Основной файл шаблона (' . $this->default_page . ') не существует';
@@ -67,36 +61,17 @@ class MainView extends View
         }
     }
 
-    public function getWidgets($res)
+    private function getWidgets($res)
     {
         $replace = $this->getTemplatesAction('widgets',$res);
         return implode($replace);
     }
 
-     private function getTemplatesAction($type, $res)
-     {
-         $replace = array();
-         foreach (Config::get_tags($type,$this->page) as $key => $value) {
-             $template_path = $this->templates_root[$type] . ucfirst($value);
 
-             if (class_exists($template_path)) {
-                 $template_action = 'get' . ucfirst($value);
-                 if (method_exists($template_path, $template_action)) {
-                     $template_file = new $template_path;
-                     $replace[] = $template_file->$template_action($res[$key]);
-                 } else {
-                     echo "Метод " . $template_action . " не найден";
-                 }
-             } else {
-                 echo "Класс " . $template_path . " не найден";
-             }
 
-         }
-
-         return $replace;
+     private function get_error_page(){
+         $error_page = new Error404();
+         return $error_page->get_error();
      }
-    
-    
-
 
 }

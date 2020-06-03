@@ -7,20 +7,10 @@ use core\Controller;
 class MainController extends Controller
 {
 
-   /* public function __construct($route)
-    {
-        parent::__construct($route);
-
-    }*/
-
     public function mainAction()
     {
-        $request = $this->model->requestLayouts();
-        $this->view->show_page($request);
+        $request_layouts = $this->model->request_layouts();
+        $request_widgets = $this->model->request_pages();
+        $this->view->get_page($request_layouts,$request_widgets);
     }
-
-    /*public function contactsAction()
-    {
-        echo 'Контакты';
-    }*/
 }
