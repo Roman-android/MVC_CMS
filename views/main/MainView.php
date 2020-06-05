@@ -5,7 +5,7 @@ namespace views\main;
 
 use core\Config;
 use core\View;
-use views\errors\Error404;
+use views\errors\ErrorsContent;
 
 class MainView extends View
 {
@@ -42,10 +42,10 @@ class MainView extends View
             $find[] = '[CONTENT]';
             if(array_key_exists(Config::current_page(),Config::$pages)){
                 echo "Страница существует!";
-                $replace[] = $this->getWidgets($res_widgets);
+                $replace[] = new WidgetsContent($res_widgets);
             }else{
                 echo "Страница НЕ существует!";
-                $replace[] = $this->get_error_page();
+                $replace[] = new ErrorsContent();
             }
 
         } else {
@@ -61,17 +61,6 @@ class MainView extends View
         }
     }
 
-    private function getWidgets($res)
-    {
-        $replace = $this->getTemplatesAction('widgets',$res);
-        return implode($replace);
-    }
 
-
-
-     private function get_error_page(){
-         $error_page = new Error404();
-         return $error_page->get_error();
-     }
 
 }
