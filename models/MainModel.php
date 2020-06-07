@@ -22,14 +22,10 @@ class MainModel extends Model
 
     public function request_pages()
     {
-
-        $page = Config::current_page();
-
-        $res = array();
-
         $res[GALLERY] = $this->db->row("SELECT image_big, image_small,img_title FROM gallery");
         $res[MAPS] = $this->db->row("SELECT axis_x,axis_y FROM maps");
         $res[PRODUCTS] = $this->db->row("SELECT img_product,title,description FROM products");
+        $res[MAP] = $this->db->row("SELECT * FROM map");
 
         return $res;
     }

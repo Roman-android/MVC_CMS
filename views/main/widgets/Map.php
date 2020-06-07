@@ -8,7 +8,7 @@ class Map
 {
     private $map;
 
-    public function getMap(){
+    public function getMap($res){
         $this->map ='<p>Раздел "Карта"</p>';
         return $this->map;
     }

@@ -11,6 +11,7 @@ class MainController extends Controller
     {
         $request_layouts = $this->model->request_layouts();
         $request_widgets = $this->model->request_pages();
-        $this->view->get_page($request_layouts,$request_widgets);
+        $request = $this->model;
+        $this->view->get_page($request);
     }
 }

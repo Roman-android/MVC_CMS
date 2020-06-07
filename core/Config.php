@@ -9,6 +9,7 @@ class  Config
     public static $templates_root;
     public static $part_app;
     public static $pages;
+    public static $content_page;
 
     /*public function __construct()
     {
@@ -24,6 +25,7 @@ class  Config
         self::$templates_root = templates_root;
         self::$part_app = part_app;
         self::$pages = pages;
+        self::$content_page = content_page;
     }
 
     public static function current_page(){

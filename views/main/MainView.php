@@ -5,16 +5,19 @@ namespace views\main;
 
 use core\Config;
 use core\View;
-use views\errors\ErrorsContent;
+use views\content\ErrorsContent;
+use views\content\WidgetsContent;
 
 class MainView extends View
 {
     private $templates_root;
     private $default_page;
     private $parse_default;
+    private $content_page;
 
-    public function __construct()
+    public function __construct($content_page)
     {
+        $this->content_page = $content_page;
         $this->templates_root = Config::$templates_root;
         $this->default_page = Config::$default_page;
         $this->parse_default = file_get_contents($this->default_page);
@@ -22,14 +25,14 @@ class MainView extends View
 
     //===================================================
 
-    public function get_page($res_layouts,$res_widgets)
+    public function get_page($model)
     {
         $find = array();
         $replace = array();
         $lost_tags = array();
         if (file_exists($this->default_page)) {
 
-            $replace = $this->getTemplatesAction('layouts',$res_layouts);
+            $replace = $this->getTemplatesAction('layouts',$model->request_layouts());
             foreach (Config::get_tags('layouts') as $key => $value) {
                 $find[] = '[' . strtoupper($value) . ']';
 
@@ -40,13 +43,11 @@ class MainView extends View
             }
 
             $find[] = '[CONTENT]';
-            if(array_key_exists(Config::current_page(),Config::$pages)){
-                echo "Страница существует!";
-                $replace[] = new WidgetsContent($res_widgets);
-            }else{
-                echo "Страница НЕ существует!";
-                $replace[] = new ErrorsContent();
-            }
+
+            $method = 'get'.$this->content_page;
+            $path = "views\content\\".$this->content_page."Content";
+            $class = new $path($model->request_pages());
+            $replace[] = $class->$method();
 
         } else {
             echo 'Основной файл шаблона (' . $this->default_page . ') не существует';

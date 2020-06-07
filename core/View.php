@@ -34,7 +34,7 @@ class View
     }
     public static function errorCode($code,$description = ""){
         http_response_code($code);
-        require_once 'views/errors/'.$code.'.php';
+        require_once 'views/content/'.$code.'.php';
         exit();
     }
 }
