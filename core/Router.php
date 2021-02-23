@@ -11,6 +11,7 @@ class Router
     {
         Config::init();
         $this->part_app = Config::$part_app;
+        $this->run();
     }
 
     public function run()
@@ -18,10 +19,8 @@ class Router
         $http_host = $_SERVER['HTTP_HOST'];
         $path = "controllers\\" . ucfirst($this->part_app[$http_host]) . "Controller";
 
-
-        $action = $this->part_app[$http_host].'Action';
         $controller = new $path($this->part_app[$http_host]);
-        $controller->$action();
+        $controller->init();
     }
 
 

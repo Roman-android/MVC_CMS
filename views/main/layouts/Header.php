@@ -12,7 +12,8 @@ class Header
         foreach ($res as $val){
             $this->header .=
                 '<p>Адрес: <b>'.$val["addres"].'</b></p>
-                 <p>Телефон: <b>'.$val["telephone"].'</b></p><hr/>';
+                 <p>Телефон: <b>'.$val["telephone"].'</b></p><hr/>
+                 <p>test.homedver.ru</p>';
         }
         return $this->header;
     }

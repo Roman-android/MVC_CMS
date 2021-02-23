@@ -10,6 +10,7 @@ class  Config
     public static $part_app;
     public static $pages;
     public static $content_page;
+    
 
     /*public function __construct()
     {

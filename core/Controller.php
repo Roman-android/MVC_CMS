@@ -17,6 +17,8 @@ abstract class Controller
         $this->view = $this->loadView();
     }
 
+    abstract public function init();
+
     private function loadModel()
     {
         $path = 'models\\' . ucfirst($this->part_app) . 'Model';
@@ -27,12 +29,12 @@ abstract class Controller
 
     private function loadView()
     {
-        if(array_key_exists(Config::current_page(),Config::$pages)){
+
+        if (array_key_exists(Config::current_page(), Config::$pages)) {
             $content_page = Config::$content_page['widgets'];
-        }else{
+        } else {
             $content_page = Config::$content_page['error'];
         }
-        //echo 'content_page: '.$content_page.'<br/>';
 
         $path = 'views\\' . $this->part_app . '\\' . ucfirst($this->part_app) . 'View';
         if (class_exists($path)) {

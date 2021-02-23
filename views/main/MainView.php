@@ -25,14 +25,14 @@ class MainView extends View
 
     //===================================================
 
-    public function get_page($model)
+    public function get_page($request_layouts,$request_widgets)
     {
         $find = array();
         $replace = array();
         $lost_tags = array();
         if (file_exists($this->default_page)) {
 
-            $replace = $this->getTemplatesAction('layouts',$model->request_layouts());
+            $replace = $this->getTemplatesAction('layouts',$request_layouts);
             foreach (Config::get_tags('layouts') as $key => $value) {
                 $find[] = '[' . strtoupper($value) . ']';
 
@@ -46,7 +46,7 @@ class MainView extends View
 
             $method = 'get'.$this->content_page;
             $path = "views\content\\".$this->content_page."Content";
-            $class = new $path($model->request_pages());
+            $class = new $path($request_widgets);
             $replace[] = $class->$method();
 
         } else {

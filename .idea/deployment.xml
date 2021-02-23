@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="server_test_cms" persistUploadOnCheckin="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="test_cms" persistUploadOnCheckin="false" autoUploadExternalChanges="true" showAutoUploadSettingsWarning="false">
     <serverData>
-      <paths name="server_test_cms">
+      <paths name="develop">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="lessons">
+        <serverdata>
+          <mappings>
+            <mapping deploy="\" local="$PROJECT_DIR$/../../lessons_mvc" web="" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="test_cms">
         <serverdata>
           <mappings>
             <mapping deploy="\" local="$PROJECT_DIR$" web="" />
