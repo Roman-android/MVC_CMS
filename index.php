@@ -13,3 +13,4 @@ spl_autoload_register(function ($class) {
 
 session_start();
 $router = new Router();
+echo 'http_host = '.$_SERVER['HTTP_HOST'];
